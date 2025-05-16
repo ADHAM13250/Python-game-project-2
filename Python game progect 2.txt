@@ -1,154 +1,182 @@
 import random
 import time
 
-# Countdown for the round
+# Countdown before mission start for dramatic effect
 def countdown():
+    print("Gear up... the mission is starting.")
     for i in range(3, 0, -1):
         print(f"{i}...")
         time.sleep(1)
-    print("Round Started!\n")
+    print("Go go go!\n")
 
-# Choose the agent function
+# Allow player to choose an agent with abilities and starting stats
 def choose_agent():
-    print("Choose your agent:")
+    print("Welcome, Operative.")
+    print("You’re about to enter a high-stakes simulation inspired by Valorant.")
+    print("Every decision you make can shift the tide of battle.\n")
+    
+    print("Pick your agent for today’s op:")
+    
     agents = {
-        '1': {"name": "Yoru", "role": "Duelist", "abilities": {"flash": 2, "rift": 2, "clone": 1, "gatecrash": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '2': {"name": "Chamber", "role": "Sentinel", "abilities": {"headhunter": 2, "trademark": 1, "teleport": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '3': {"name": "Omen", "role": "Controller", "abilities": {"smoke": 2, "paranoia": 1, "shrouded_step": 1, "dark_cover": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '4': {"name": "KAY/O", "role": "Initiator", "abilities": {"frag": 2, "zero_point": 1, "suppression": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '5': {"name": "Reyna", "role": "Duelist", "abilities": {"dismiss": 2, "leer": 1, "devour": 1, "invigorate": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '6': {"name": "Raze", "role": "Duelist", "abilities": {"boom_bot": 2, "blast_pack": 1, "paint_shells": 1, "satchel_charge": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '7': {"name": "Killjoy", "role": "Sentinel", "abilities": {"nanoswarm": 2, "lockdown": 1, "turret": 1, "alarm_bot": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '8': {"name": "Cypher", "role": "Sentinel", "abilities": {"spycam": 2, "trapwire": 1, "cyber_cage": 1, "neural_theft": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '9': {"name": "Brimstone", "role": "Controller", "abilities": {"smoke": 2, "incendiary": 1, "stim_beacon": 1, "sky_smoke": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '10': {"name": "Viper", "role": "Controller", "abilities": {"snake_bite": 2, "poison_cloud": 1, "toxic_screen": 1, "viper_venom": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '11': {"name": "Breach", "role": "Initiator", "abilities": {"flashpoint": 2, "aftershock": 1, "fault_line": 1, "aftershock": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '12': {"name": "Sova", "role": "Initiator", "abilities": {"owl_drone": 2, "shock_bolt": 1, "recon_bolt": 1, "hunter_s_fury": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '13': {"name": "Skye", "role": "Initiator", "abilities": {"regrowth": 2, "flash": 1, "trailblazer": 1, "seekers": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '14': {"name": "Sage", "role": "Sentinel", "abilities": {"healing_orb": 2, "resurrection": 1, "slow_orb": 1, "barrier_orb": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '15': {"name": "Astra", "role": "Controller", "abilities": {"gravity_well": 2, "nebula": 1, "cosmic_divide": 1, "nova_pulse": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '16': {"name": "Neon", "role": "Duelist", "abilities": {"fast_lane": 2, "high_voltage": 1, "relay_bolt": 1, "overdrive": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '17': {"name": "Fade", "role": "Initiator", "abilities": {"haunt": 2, "seize": 1, "nightfall": 1, "pursuit": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '18': {"name": "Harbor", "role": "Controller", "abilities": {"cove": 2, "high_tide": 1, "cascade": 1, "reversal": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '19': {"name": "Vyse", "role": "Sentinel", "abilities": {"echo_wall": 2, "vortex_grenade": 1, "spectral_veil": 1, "time_dilation": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
-        '20': {"name": "Tejo", "role": "Initiator", "abilities": {"pulse_dart": 2, "flash_sphere": 1, "temporal_rift": 1, "surge_wave": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20},
+        '1': {"name": "Yoru", "role": "Duelist", "abilities": {"flash": 2, "rift": 2, "clone": 1, "gatecrash": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20, "energy": 0},
+        '2': {"name": "Chamber", "role": "Sentinel", "abilities": {"headhunter": 2, "trademark": 1, "teleport": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20, "energy": 0},
+        '3': {"name": "Omen", "role": "Controller", "abilities": {"smoke": 2, "paranoia": 1, "shrouded_step": 1, "dark_cover": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20, "energy": 0},
+        '4': {"name": "KAY/O", "role": "Initiator", "abilities": {"frag": 2, "zero_point": 1, "suppression": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20, "energy": 0},
+        '5': {"name": "Jett", "role": "Duelist", "abilities": {"dash": 1, "updraft": 2, "smoke": 2}, "score": 0, "kills": 0, "inventory": [], "points": 20, "energy": 0},
+        '6': {"name": "Fade", "role": "Initiator", "abilities": {"prowler": 2, "seize": 1, "haunt": 2}, "score": 0, "kills": 0, "inventory": [], "points": 20, "energy": 0},
+        '7': {"name": "Killjoy", "role": "Sentinel", "abilities": {"turret": 1, "alarmbot": 1, "nanoswarm": 2}, "score": 0, "kills": 0, "inventory": [], "points": 20, "energy": 0},
+        '8': {"name": "Brimstone", "role": "Controller", "abilities": {"stim": 1, "smoke": 3, "molly": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20, "energy": 0},
     }
 
-    for key, value in agents.items():
-        print(f"{key}. {value['name']} ({value['role']})")
+    for key, val in agents.items():
+        print(f"{key}. {val['name']} ({val['role']})")
 
-    agent_choice = input("Choose your agent by number: ").strip()
+    choice = input("Pick by number: ").strip()
+    agent = agents.get(choice, agents['1'])  # Default to Yoru if input is invalid
+    print(f"\nYou're going in as {agent['name']}. Lock it in.\n")
+    return agent
 
-    if agent_choice in agents:
-        print(f"You have chosen {agents[agent_choice]['name']}!\n")
-        return agents[agent_choice]
-    else:
-        print("Invalid choice! Defaulting to Yoru.\n")
-        return agents['1']
-
-# Use an ability function
-def use_ability(agent, ability):
-    if agent["abilities"].get(ability, 0) > 0:
-        agent["abilities"][ability] -= 1
-        print(f"Used {ability.upper()}!")
-        return True
-    else:
-        print(f"No {ability.upper()} left!")
-        return False
-
-# Weapon purchase function
+# Weapon buying system using points
 def buy_weapons(agent):
-    print("\n--- Loadout Phase ---")
-    print("You have 20 points. Buy weapons:")
-    print("1. Vandal (15 points)")
-    print("2. Sheriff (5 points)")
-    print("3. Operator (20 points)")
-    print("4. Judge (10 points)")
-
-    weapon_costs = {
-        "vandal": 15,
-        "sheriff": 5,
-        "operator": 20,
-        "judge": 10
-    }
+    print("--- Loadout Phase ---")
+    print("You’ve got 20 credits to spend. Choose wisely.")
+    print("Options: Vandal (15), Sheriff (5), Operator (20), Judge (10)")
 
     while agent["points"] >= 5:
-        choice = input("Buy 'vandal', 'sheriff', 'operator', 'judge', or type 'done': ").lower()
-        if choice == "done":
+        choice = input("Type weapon name or 'done': ").lower()
+        if choice == "vandal" and agent["points"] >= 15:
+            agent["inventory"].append("Vandal")
+            agent["points"] -= 15
+            print("Locked in the Vandal.")
+        elif choice == "sheriff" and agent["points"] >= 5:
+            agent["inventory"].append("Sheriff")
+            agent["points"] -= 5
+            print("Sheriff ready.")
+        elif choice == "operator" and agent["points"] >= 20:
+            agent["inventory"].append("Operator")
+            agent["points"] -= 20
+            print("Sniper online.")
+        elif choice == "judge" and agent["points"] >= 10:
+            agent["inventory"].append("Judge")
+            agent["points"] -= 10
+            print("Boomstick acquired.")
+        elif choice == "done":
             break
-        elif choice in weapon_costs:
-            cost = weapon_costs[choice]
-            if agent["points"] >= cost:
-                agent["points"] -= cost
-                agent["inventory"].append(choice)
-                print(f"{choice.capitalize()} purchased! Points left: {agent['points']}")
-            else:
-                print("Not enough points!")
         else:
-            print("Invalid choice.")
+            print("Either you can’t afford that, or it’s not real.")
 
-    print("\nFinal Loadout:", ', '.join(agent["inventory"]) if agent["inventory"] else "None")
-    print("Points remaining:", agent["points"])
+    print(f"Your loadout: {agent['inventory']} | Leftover points: {agent['points']}\n")
 
-# Simulate a random combat situation
-def random_situation():
-    situations = [
-        "A sudden smoke cloud disorients you! You must act fast.",
-        "Your team is down, and you're alone in the site! Be careful.",
-        "You’re being pushed from multiple angles! Can you hold your ground?",
-        "Your opponent is waiting at the corner with a powerful weapon. Do you peek?",
-        "The bomb is planted, and you need to defuse! The enemy is nearby."
-    ]
-    return random.choice(situations)
+# Use an ability (if available)
+def use_ability(agent, ability):
+    if ability in agent["abilities"] and agent["abilities"][ability] > 0:
+        print(f"You use {ability}. Tactical move.")
+        agent["abilities"][ability] -= 1
+        agent["energy"] += 5
+    else:
+        print("No charges left or wrong input.")
 
-# Simulate a round of combat with different situations
-def combat_round(agent):
-    print("\n--- Combat Round ---")
-    agent["kills"] = random.randint(0, 5)  # Simulate number of kills by the agent
-    opponent_kills = random.randint(0, 5)  # Simulate number of kills by the opponent
-    print(f"Your opponent has {opponent_kills} kills in this round.")
+# Unexpected betrayal story event
+def surprise_twist():
+    print("--- Unexpected Intel ---")
+    print("Fade sends a cryptic ping: ‘We’ve been compromised.’")
+    print("Someone on your squad is feeding info to the enemy.")
+    choice = input("Do you 'trust' your squad or 'interrogate' Fade? ").lower()
 
-    # Display a random situation
-    situation = random_situation()
-    print(f"Situation: {situation}\n")
+    if choice == "trust":
+        print("You stay focused, ignoring the paranoia.")
+        return True
+    elif choice == "interrogate":
+        print("Fade resists at first, but you catch the glitch in her comms.")
+        print("She draws a pistol. You drop her first.")
+        return True
+    else:
+        print("You froze. She didn’t. You’re out.")
+        return False
 
-    # Decide if it's time to use abilities or make moves
-    choice = input("Do you want to use an ability? (yes/no): ").strip().lower()
-    if choice == "yes":
-        ability_choice = input(f"Which ability do you want to use? ({', '.join(agent['abilities'].keys())}): ").strip().lower()
-        if use_ability(agent, ability_choice):
-            print(f"You used {ability_choice.upper()}!")
+# Core encounter choice - engage, rotate, or hold
+def encounter_enemy(agent):
+    print("--- Contact ---")
+    print("You hear steps. Close.")
+    move = input("‘Peek’, ‘rotate’, or ‘hold’? ").lower()
+
+    if move == "peek":
+        print("You swing the corner...")
+        if random.random() > 0.4:
+            print("Enemy down!")
+            agent["kills"] += 1
+            agent["score"] += 5
+            return True
         else:
-            print(f"Unable to use {ability_choice.upper()}!")
+            print("They were faster. You're hit.")
+            return False
+    elif move == "rotate":
+        print("You outplayed them. Smart move.")
+        agent["score"] += 3
+        return True
+    elif move == "hold":
+        print("You wait... they never come. Wasted chance.")
+        return True
     else:
-        print("You chose not to use an ability.")
+        print("You hesitated. That's fatal.")
+        return False
 
-    # Combat outcome
-    if agent["kills"] > opponent_kills:
-        print(f"You win this round! Total kills: {agent['kills']}")
-        agent["score"] += 1
-    elif agent["kills"] < opponent_kills:
-        print(f"You lose this round. Total kills: {agent['kills']}")
+# End-of-round spike interaction
+def spike_scenario(agent):
+    print("--- Spike Site ---")
+    choice = input("Plant the spike or fake it? (‘plant’ / ‘fake’): ").lower()
+    if choice == "plant":
+        print("Spike planted. Now hold the line.")
+        agent["score"] += 5
+    elif choice == "fake":
+        print("You faked the plant—enemy peeked—boom! One tap.")
+        agent["kills"] += 1
+        agent["score"] += 7
     else:
-        print(f"It's a draw! Both have {agent['kills']} kills.")
+        print("You hesitated too long. They pushed and you lost the spike.")
 
-# Main game loop
-def start_game():
+# Recap of the player's stats after the round
+def round_summary(agent):
+    print("\n--- Mission Summary ---")
+    print(f"Agent: {agent['name']}")
+    print(f"Kills: {agent['kills']}")
+    print(f"Score: {agent['score']}")
+    print(f"Energy: {agent['energy']}")
+    print(f"Abilities Left: {agent['abilities']}")
+    print(f"Loadout: {agent['inventory']}\n")
+
+# Main mission sequence
+def main():
+    print("== Valorant: Shadow Operation ==")
+    print("Your decisions shape the mission. Let’s get started.\n")
+
     agent = choose_agent()
     buy_weapons(agent)
     countdown()
-    while True:
-        combat_round(agent)
-        continue_choice = input("Do you want to continue to the next round? (yes/no): ").strip().lower()
-        if continue_choice == "no":
-            change_agent = input("Do you want to choose a new agent? (yes/no): ").strip().lower()
-            if change_agent == "yes":
-                agent = choose_agent()
-                buy_weapons(agent)
-                countdown()
-            else:
-                break
-    print(f"\nGame Over! Your final score is: {agent['score']}")
 
-# Start the game
-start_game()
+    if not surprise_twist():
+        print("Mission failed. Fade played you.")
+        return
+
+    print("You’re in. Make your move.")
+    print(f"Abilities: {agent['abilities']}")
+    chosen_ability = input("Use an ability (type name or 'none'): ").lower()
+    if chosen_ability != "none":
+        use_ability(agent, chosen_ability)
+
+    if not encounter_enemy(agent):
+        print("You’ve been eliminated.")
+        return
+
+    spike_scenario(agent)
+    agent["energy"] += 10
+    round_summary(agent)
+
+# Run the mission loop
+if __name__ == "__main__":
+    while True:
+        main()
+        again = input("Play another round? (yes/no): ").lower()
+        if again != "yes":
+            print("Mission complete. Stay sharp, Agent.")
+            break
