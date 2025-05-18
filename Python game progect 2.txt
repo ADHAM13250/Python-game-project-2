@@ -9,14 +9,14 @@ def countdown():
         time.sleep(1)
     print("Go go go!\n")
 
-# Allow player to choose an agent with abilities and starting stats
+## Allow player to choose an agent with abilities and starting stats
 def choose_agent():
     print("Welcome, Operative.")
     print("You’re about to enter a high-stakes simulation inspired by Valorant.")
     print("Every decision you make can shift the tide of battle.\n")
-    
+
     print("Pick your agent for today’s op:")
-    
+
     agents = {
         '1': {"name": "Yoru", "role": "Duelist", "abilities": {"flash": 2, "rift": 2, "clone": 1, "gatecrash": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20, "energy": 0},
         '2': {"name": "Chamber", "role": "Sentinel", "abilities": {"headhunter": 2, "trademark": 1, "teleport": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20, "energy": 0},
@@ -28,13 +28,26 @@ def choose_agent():
         '8': {"name": "Brimstone", "role": "Controller", "abilities": {"stim": 1, "smoke": 3, "molly": 1}, "score": 0, "kills": 0, "inventory": [], "points": 20, "energy": 0},
     }
 
-    for key, val in agents.items():
-        print(f"{key}. {val['name']} ({val['role']})")
+    name_to_key = {val["name"].lower(): key for key, val in agents.items()}
 
-    choice = input("Pick by number: ").strip()
-    agent = agents.get(choice, agents['1'])  # Default to Yoru if input is invalid
+    while True:
+        for key, val in agents.items():
+            print(f"{key}. {val['name']} ({val['role']})")
+
+        choice = input("Pick by number or agent name: ").strip().lower()
+
+        if choice in agents:
+            agent = agents[choice]
+            break
+        elif choice in name_to_key:
+            agent = agents[name_to_key[choice]]
+            break
+        else:
+            print("Invalid input. Please enter a valid number or agent name.\n")
+
     print(f"\nYou're going in as {agent['name']}. Lock it in.\n")
     return agent
+
 
 # Weapon buying system using points
 def buy_weapons(agent):
@@ -174,9 +187,20 @@ def main():
 
 # Run the mission loop
 if __name__ == "__main__":
+
+ while True:
+    main()
+
     while True:
-        main()
         again = input("Play another round? (yes/no): ").lower()
-        if again != "yes":
+        if again == "yes":
+            break  # Goes back to the outer loop
+        elif again == "no":
             print("Mission complete. Stay sharp, Agent.")
-            break
+            should_exit = True
+            break  # Break inner loop and check flag
+        else:
+            print("Invalid input. Please type 'yes' or 'no'.")
+
+    if 'should_exit' in locals() and should_exit:
+        break  # Break the outer loop
